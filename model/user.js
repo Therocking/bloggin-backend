@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const { USER_ROLE } = require('../helpers/usersRoles');
 
 const UserSchema = new Schema({
     name: {
@@ -15,7 +16,7 @@ const UserSchema = new Schema({
     },
     role: {
         type: String,
-        default: 'USER_ROLE',
+        default: USER_ROLE,
         require
     },
     status: {
