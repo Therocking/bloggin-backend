@@ -13,6 +13,7 @@ const dicErrors = {
     ID_NOT_IN_USE: 'Nigún usuario existe con ese ID.',
     // USER
     USER_WITHOU_PRIVILEGES: 'EL ususario no tiene privilegios para realizar esa acción.',
+    USER_OR_PASS_INCORRECT: 'Usuario o contraseña incorrecta.',
     // TOKEN
     TOKEN_NOT_CREATED: 'No se pudo generar el token.',
     INVALID_TOKEN: 'Token no válido.',

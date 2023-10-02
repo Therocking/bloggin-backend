@@ -1,9 +1,10 @@
 const { USER_WITHOU_PRIVILEGES } = require('../errors/dicErrors');
+const { ADMIN_ROLE } = require('../helpers/usersRoles');
 
 const isAdmin = async(req, res, next) => {
-    const {status} = req.user;
+    const {role} = req.user;
 
-    if( status !== 'ADMIN_ROLE' ) {
+    if( role !== ADMIN_ROLE ) {
         return res.status(401).json({
             msg: USER_WITHOU_PRIVILEGES
         })
