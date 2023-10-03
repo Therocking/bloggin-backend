@@ -33,6 +33,8 @@ class Server {
 
         // Read and parse
         this.app.use( express.json() );
+
+        this.app.use( express.static('public') )
     }
 
     async dbConnection() {

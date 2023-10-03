@@ -2,7 +2,7 @@ const { request, response } = require('express');
 const bcrypt = require('bcryptjs');
 const { User } = require('../model');
 const { SYSTEM_ERROR } = require('../errors/dicErrors');
-const { generateJWT } = require('../helpers/generateJWT');
+const { generateJWT } = require('../helpers');
 
 const getUsers = async(req=request, res=response) => {
     try {
@@ -24,6 +24,19 @@ const getUsers = async(req=request, res=response) => {
         res.status(500).json({
             msg: SYSTEM_ERROR
         });
+    }
+}
+
+const getUser = async(req=request, res=response) => {
+    try {
+        const { userId } = req.params;
+
+        const user = await User.findById(userId);
+
+        res.json(user)
+        
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -55,8 +68,8 @@ const createUser = async(req=request, res=response) => {
 
 const updateUser = async(req=request, res=response) => {
     try {
-        const {google, mail, password, status, _id, ...rest} = req.body;
-        const {id} = req.params;
+        const { google, mail, password, status, _id, role, ...rest } = req.body;
+        const {userId} = req.params;
 
         if( password ) {
             // Constraseña encritada
@@ -64,7 +77,7 @@ const updateUser = async(req=request, res=response) => {
             rest.password = bcrypt.hashSync( password, salt );
         }
 
-        const user = await User.findByIdAndUpdate(id, rest, {new:true} )
+        const user = await User.findByIdAndUpdate(userId, rest, {new:true} )
 
         res.json({
             user
@@ -79,8 +92,8 @@ const updateUser = async(req=request, res=response) => {
 
 const deleteUser = async(req=request, res=response) => {
     try {
-        const {id} = req.params;
-        const user = await User.findByIdAndUpdate(id, {status: false}, {new: true});
+        const {userId} = req.params;
+        const user = await User.findByIdAndUpdate(userId, {status: false}, {new: true});
         
         res.json({
             user
@@ -90,11 +103,12 @@ const deleteUser = async(req=request, res=response) => {
         res.status(500).json({
             msg: SYSTEM_ERROR
         })
-    }
+    }dbValidators
 }
 
 module.exports = {
     getUsers,
+    getUser,
     createUser,
     updateUser,
     deleteUser

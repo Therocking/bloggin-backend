@@ -1,23 +1,24 @@
 const { Schema, model } = require('mongoose');
 const { USER_ROLE } = require('../helpers/usersRoles');
 
-const UserSchema = new Schema({
+const UserSchema = Schema({
     name: {
         type: String,
-        require: true
+        required: true
     },
     mail: {
         type: String,
-        require: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
-        require: true
+        required: true
     },
     role: {
         type: String,
         default: USER_ROLE,
-        require
+        required: true
     },
     status: {
         type: Boolean,

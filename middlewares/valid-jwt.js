@@ -1,5 +1,5 @@
 const JWT = require('jsonwebtoken');
-const { WITHOUT_TOKEN, TOKEN_USER, ID_NOT_IN_USE, INVALID_TOKEN } = require('../errors/dicErrors');
+const { WITHOUT_TOKEN, TOKEN_USER, ID_NOT_IN_USE, INVALID_TOKEN, TOKEN_EXPIRED } = require('../errors/dicErrors');
 const { User } = require('../model');
 
 const validJWT = async(req, res, next) => {
@@ -33,9 +33,15 @@ const validJWT = async(req, res, next) => {
         next();
     } catch (error) {
         console.log(error);
+        if ( error.name === 'TokenExpiredError' ) {
+            return res.status(401).json({
+                msg: TOKEN_EXPIRED
+            });
+        }
+
         res.status(401).json({
             msg: INVALID_TOKEN
-        })
+        });
     }
 }
 
