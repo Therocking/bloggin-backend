@@ -10,10 +10,11 @@ const dicErrors = {
     MAIL_IN_USE: 'El correo ya está en uso.',
     // ID
     ID_INVALID: 'El ID, no es un ID de mongo válido.',
-    ID_NOT_IN_USE: 'Nigún usuario existe con ese ID.',
+    ID_NOT_IN_USE: 'Nigún usuario o post existe con ese ID.',
     // USER
     USER_WITHOU_PRIVILEGES: 'EL ususario no tiene privilegios para realizar esa acción.',
     USER_OR_PASS_INCORRECT: 'Usuario o contraseña incorrecta.',
+    USER_UNAUTHORIZED: 'El usuario no tiene permisos para realiza esa acción.',
     // TOKEN
     TOKEN_NOT_CREATED: 'No se pudo generar el token.',
     INVALID_TOKEN: 'Token no válido.',
@@ -21,6 +22,8 @@ const dicErrors = {
     WITHOUT_TOKEN: 'No hay token en la petición.',
     TOKEN_USER: 'Token no válido. Usuario no existe.',
     INVALID_GOOGLE_TOKEN: 'Token de google no válido.',
+    // POSTS
+    TITLE_EMPTY: 'El titulo no puedo ir vacío.',
     //SYSTEM
     SYSTEM_ERROR: 'Algo salió mal hable con el administrador.'
 }

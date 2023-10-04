@@ -35,7 +35,7 @@ Los usuarios requerien el nombre, correo, contraseña, rol, img, estado(si esta 
 Los comentarios requieren un titulo, estado(si esta en falso significa que está borrado), descripción, fecha de creación, usuario que lo creó, comentrios, likes(la cantidad de likes puede reducir), img, (más).
 
 ### Comentario 
-Los comentarios requieren descripción, fecha de creación, usuario que lo creó, likes(la cantidad de likes puede reducir), comentarios, (más).
+Los comentarios requieren descripción, fecha de creación, usuario que lo creó, likes(la cantidad de likes puede reducir), respuestas, (más).
 
 ## Rutas
 
@@ -43,9 +43,10 @@ Los comentarios requieren descripción, fecha de creación, usuario que lo creó
 - /api/auth/login - POST
 - /api/auth/google - POST
 
-### Usuarios - privado
+### Usuarios - público
 - /api/user - GET - POST 
-- /api/user/:id - DELETE - PUT
+- /api/user/:id - DELETE - PUT - GET 
 
 ### Posts - público
-- /api/posts - GET - POST - DELETE - PUT
+- /api/posts - GET - POST 
+- /api/posts/:id - DELETE - PUT - GET

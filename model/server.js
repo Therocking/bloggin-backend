@@ -9,6 +9,7 @@ class Server {
         this.app = express();
         this.paths = {
             auth: '/api/auth',
+            posts: '/api/posts',
             users: '/api/users',
         };
 
@@ -24,6 +25,7 @@ class Server {
 
     routes() {
         this.app.use( this.paths.auth, require('../routes/auth') ); // auth
+        this.app.use( this.paths.posts, require('../routes/posts') ); // posts
         this.app.use( this.paths.users, require('../routes/users') ); // users
     }
 
