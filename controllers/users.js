@@ -2,7 +2,7 @@ const { request, response } = require('express');
 const bcrypt = require('bcryptjs');
 const { User } = require('../model');
 const { SYSTEM_ERROR } = require('../errors/dicErrors');
-const { generateJWT } = require('../helpers');
+const { generateJWT, uploadImg } = require('../helpers');
 
 const getUsers = async(req=request, res=response) => {
     try {
@@ -42,8 +42,8 @@ const getUser = async(req=request, res=response) => {
 
 const createUser = async(req=request, res=response) => {
     try {
-        const { name, mail, password } = req.body
-        const user = new User({ name, mail, password }) // Modelo usuario
+        const { name, mail, password } = req.body;
+        const user = new User({ name, mail, password }); // Modelo usuario
     
         // Constraseña encritada
         const salt = bcrypt.genSaltSync();
@@ -72,7 +72,7 @@ const updateUser = async(req=request, res=response) => {
         const {userId} = req.params;
 
         if( password ) {
-            // Constraseña encritada
+            // Constraseña actualizada
             const salt = bcrypt.genSaltSync();
             rest.password = bcrypt.hashSync( password, salt );
         }

@@ -24,6 +24,8 @@ const dicErrors = {
     INVALID_GOOGLE_TOKEN: 'Token de google no válido.',
     // POSTS
     TITLE_EMPTY: 'El titulo no puedo ir vacío.',
+    // EXT
+    EXT_INVALID: 'Extención de archivo no aceptada.',
     //SYSTEM
     SYSTEM_ERROR: 'Algo salió mal hable con el administrador.'
 }
