@@ -1,43 +1,54 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { getUsers, createUser, updateUser, deleteUser } = require('../controllers/users');
+const { getUsers, createUser, updateUser, deleteUser, getUser } = require('../controllers/users');
 const { validFields, validJWT, isAdmin } = require('../middlewares');
-const { isMailUniq, isUidUsed } = require('../helpers/db-validators');
+const { isMailUniq, isUidUsed } = require('../helpers');
 const { NAME_REQUIRED, MAIL_REQUIRED, PASS_REQUIRED, ID_INVALID } = require('../errors/dicErrors');
 
 const router = Router();
 
 router.get('/',[
     validJWT,
-    validFields,
+    validFields, // Comprueba si hay errores
     isAdmin,
-    validFields,
+    validFields, // Comprueba si hay errores
 ],getUsers)
+
+router.get('/:userId',[
+    validJWT,
+    validFields, // Comprueba si hay errores
+    isAdmin,
+    validFields, // Comprueba si hay errores
+    check('userId', ID_INVALID).isMongoId(),
+    validFields, // Comprueba si hay errores
+    check('userId').custom( isUidUsed ),
+    validFields, // Comprueba si hay errores
+],getUser)
 
 router.post('/',[
     check('name', NAME_REQUIRED).notEmpty(),
-    validFields,
+    validFields, // Comprueba si hay errores
     check('password', PASS_REQUIRED).notEmpty(),
-    validFields,
+    validFields, // Comprueba si hay errores
     check('mail', MAIL_REQUIRED).isEmail(),
     check('mail').custom( isMailUniq ),
-    validFields
+    validFields // Comprueba si hay errores
 ],createUser)
 
-router.put('/:id',[
-    check('id', ID_INVALID).isMongoId(),
+router.put('/:userId',[
+    check('userId', ID_INVALID).isMongoId(),
     validFields,
-    check('id').custom( isUidUsed ),
+    check('userId').custom( isUidUsed ),
     validFields
 ],updateUser)
 
-router.delete('/:id',[
+router.delete('/:userId',[
     validJWT,
     isAdmin,
-    check('id', ID_INVALID).isMongoId(),
+    check('userId', ID_INVALID).isMongoId(),
     validFields,
-    check('id').custom( isUidUsed ),
+    check('userId').custom( isUidUsed ),
     validFields
 ],deleteUser)
 

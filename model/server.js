@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const { dbConnection } = require('../db/config');
 
@@ -9,22 +10,26 @@ class Server {
         this.app = express();
         this.paths = {
             auth: '/api/auth',
+            posts: '/api/posts',
             users: '/api/users',
+            uploads: '/api/uploads',
         };
+
+        // Middlewares
+        this.middlewares();
 
         // db connection
         this.dbConnection();
         
-        // Middlewares
-        this.middlewares();
-
         // Routes
         this.routes();
     }
 
     routes() {
         this.app.use( this.paths.auth, require('../routes/auth') ); // auth
+        this.app.use( this.paths.posts, require('../routes/posts') ); // posts
         this.app.use( this.paths.users, require('../routes/users') ); // users
+        this.app.use( this.paths.uploads, require('../routes/uploads') ); // uploads
     }
 
     middlewares() {
@@ -33,6 +38,14 @@ class Server {
 
         // Read and parse
         this.app.use( express.json() );
+
+        // this.app.use( express.static('public') )
+
+        // Acepta la carga de archivos
+        this.app.use( fileUpload({
+            useTempFiles: true,
+            tempFileDir: '/tmp'
+        }) );
     }
 
     async dbConnection() {

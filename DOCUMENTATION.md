@@ -29,24 +29,24 @@ Aplicación de blogging con:
 ## Especifícaciones
 
 ### Usuario
-Los usuarios requerien el nombre, correo, contraseña, rol, img, estado(si esta en falso significa que está borra o suspendido), si se autenticó con google, (más) los roles de los usuarios serán: usuarios ADMIN y USER.
+Los usuarios requerien el nombre, correo, contraseña, rol, img, estado(si esta en falso significa que está borrado o suspendido), si se autenticó con google, (más) los roles de los usuarios serán: usuarios ADMIN y USER.
 
 ### Post
-Los comentarios requieren un titulo, estado(si esta en falso significa que está borra o suspendido), descripción, fecha de creación, usuario que lo creó, comentrios, likes(la cantidad de likes puede reducir), img, (más).
+Los comentarios requieren un titulo, estado(si esta en falso significa que está borrado), descripción, fecha de creación, usuario que lo creó, comentrios, likes(la cantidad de likes puede reducir), img, (más).
 
 ### Comentario 
-Los comentarios requieren descripción, fecha de creación, usuario que lo creó, likes(la cantidad de likes puede reducir), comentarios, (más).
+Los comentarios requieren descripción, fecha de creación, usuario que lo creó, likes(la cantidad de likes puede reducir), respuestas, (más).
 
 ## Rutas
 
 ### Auth - público
 - /api/auth/login - POST
-- /api/auth/register - POST
 - /api/auth/google - POST
 
-### Usuarios - privado
-- /api/user - GET - POST - DELETE - PUT
-- /api/user/:id - GET
+### Usuarios - público
+- /api/user - GET - POST 
+- /api/user/:id - DELETE - PUT - GET 
 
 ### Posts - público
-- /api/posts - GET - POST - DELETE - PUT
+- /api/posts - GET - POST 
+- /api/posts/:id - DELETE - PUT - GET
