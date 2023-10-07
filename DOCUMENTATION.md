@@ -15,17 +15,6 @@ Aplicación de blogging con:
 - Likes
 - Recomendación por más like
 
-## Tecnológias
-
-- NodeJS
-- Express
-- Express Validator
-- MongoDB
-- Mongoose
-- JWT
-- Google sign-in
-- Moment
-
 ## Especifícaciones
 
 ### Usuario
@@ -39,14 +28,26 @@ Los comentarios requieren descripción, fecha de creación, usuario que lo creó
 
 ## Rutas
 
-### Auth - público
+### Auth
+#### Público
 - /api/auth/login - POST
 - /api/auth/google - POST
 
-### Usuarios - público
+### Usuarios 
+#### Público
 - /api/user - GET - POST 
-- /api/user/:id - DELETE - PUT - GET 
+- /api/user/:id - PUT - GET
+#### Privado
+- /api/user/:id - DELETE
 
-### Posts - público
+### Posts 
+#### Público
 - /api/posts - GET - POST 
 - /api/posts/:id - DELETE - PUT - GET
+- /api/posts/comments/:id - PUT
+- /api/posts/likes/:id - PUT
+- /api/posts/answers/:id - PUT
+
+### Uploads
+#### Público 
+- /api/uploads/:contenedor/:id <!-- Contenedor = users o posts -->
