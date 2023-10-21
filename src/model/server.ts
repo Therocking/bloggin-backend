@@ -1,9 +1,11 @@
 import express, { Application } from 'express';
 import cors from 'cors';
+import fileUpload from 'express-fileupload';
 
 import usersRouter from '../routes/users';
+import authRouter from '../routes/auth';
+
 import { mongoConnection } from '../db/config';
-import fileUpload from 'express-fileupload';
 
 class Server {
     private app: Application;
@@ -32,7 +34,7 @@ class Server {
         this.app.use( express.json() );
         // this.app.use( express.urlencoded() );
         
-        // this.app.use( express.static('public') )
+        this.app.use( express.static('public') );
 
         // this.app.get('*') //Todo: Ruta 404
 
@@ -48,7 +50,7 @@ class Server {
 
     routes() {
         this.app.use( this.apiRoutes.users, usersRouter ); // usuarios
-        //this.app.use( this.apiRoutes.auth ); // auth
+        this.app.use( this.apiRoutes.auth, authRouter ); // auth
         //this.app.use( this.apiRoutes.post ); // posts
         //this.app.use( this.apiRoutes.comments ); // comments
         //this.app.use( this.apiRoutes.claps ); // claps

@@ -48,17 +48,14 @@ class UsersController {
         }
     }
     
-    postUser = async(req:Request, res:Response) => {
-        const body = req.body;
-
-        // Hashing pass
-        const salt = bcrypt.genSaltSync();
-        body.password = bcrypt.hashSync( body.password, salt );
-
-        const user = new User(body);
+    createUser = async(req:Request, res:Response) => {
+        const { google, created_at, role, status, img, ...data } = req.body;
+        
+        const user = new User(data);
+        user.password = user.hashPass(data.password);
         
         // User save in DB
-        user.save();
+        await user.save();
         
         const token = await generateJWT( user.id );
 
@@ -69,14 +66,15 @@ class UsersController {
     }
     
     updateUser = async(req:Request, res:Response) => {
-        const { status, google, password, role, created_at, ...rest } = req.body;
+        const { status, google, password, email, role, created_at, id: uid, ...data } = req.body;
         const {id} = req.params;
 
-        // Hashing pass
-        const salt = bcrypt.genSaltSync();
-        rest.password = bcrypt.hashSync( password, salt );
+        if( password ) { // Change pass
+            const salt = bcrypt.genSaltSync();
+            data.password = bcrypt.hashSync( password, salt );
+        }
 
-        const user = await User.findByIdAndUpdate(id, rest, {new: true});
+        const user = await User.findByIdAndUpdate(id, data, {new: true});
 
         res.json( user );
     }

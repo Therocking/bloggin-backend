@@ -10,21 +10,26 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const roles_1 = require("../helpers/roles");
 const UserSchema = new mongoose_1.Schema({
     name: {
         type: String,
-        require: true,
+        required: true,
     },
     email: {
         type: String,
-        require: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
-        require: true
+        required: true
     },
     img: String,
     role: {
@@ -33,7 +38,7 @@ const UserSchema = new mongoose_1.Schema({
     },
     google: {
         type: Boolean,
-        default: true
+        default: false
     },
     status: {
         type: Boolean,
@@ -48,6 +53,11 @@ UserSchema.methods.toJSON = function () {
     const _a = this.toObject(), { _id, __v, password } = _a, user = __rest(_a, ["_id", "__v", "password"]);
     user.uid = _id;
     return user;
+};
+UserSchema.methods.hashPass = (password) => {
+    // Hashing pass
+    const salt = bcryptjs_1.default.genSaltSync();
+    return bcryptjs_1.default.hashSync(password, salt);
 };
 exports.default = (0, mongoose_1.model)('User', UserSchema);
 //# sourceMappingURL=user.js.map

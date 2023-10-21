@@ -27,11 +27,13 @@ router.get('/:id', [
 router.post('/', [
     (0, express_validator_1.check)('name', dicErrors_1.default.NAME_REQUIRED).not().isEmpty(),
     middlewares_1.validFields,
-    (0, express_validator_1.check)('email', dicErrors_1.default.MAIL_REQUIRED).not().isEmpty(),
-    middlewares_1.validFields,
     (0, express_validator_1.check)('password', dicErrors_1.default.PASS_REQUIRED).not().isEmpty(),
-    middlewares_1.validFields, // Valid if have any error
-], usersController.postUser);
+    middlewares_1.validFields,
+    (0, express_validator_1.check)('email', dicErrors_1.default.MAIL_REQUIRED).isEmail(),
+    middlewares_1.validFields,
+    (0, express_validator_1.check)('email').custom(helpers_1.emailExist),
+    middlewares_1.validFields, // Valid if have any error 
+], usersController.createUser);
 router.put('/:id', [
     middlewares_1.validJwt,
     middlewares_1.validFields,

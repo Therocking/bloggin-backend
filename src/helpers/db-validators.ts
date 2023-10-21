@@ -8,7 +8,7 @@ export const userIdNotExist = async( id: string ) => {
 }
 
 // Valid email
-export const emailExist = async( mail: string ) => {
-    const user = await User.findOne({ mail: mail });
-    if( !user ) throw new Error(ERRORS.MAIL_OR_PASS_INCORRECT);
+export const emailExist = async( email: string ) => {
+    const user = await User.findOne({ email });
+    if( user ) throw new Error(ERRORS.MAIL_IN_USE);
 }

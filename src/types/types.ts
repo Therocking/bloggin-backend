@@ -9,10 +9,18 @@ export interface Iuser extends  Document {
     role: string;
     google: boolean;
     status: boolean;
-    created_at: Date
+    created_at: Date;
+    hashPass(password: string): string;
 }
 
 //valid-jwt uid
 export interface Iuid {
     uid: string
+}
+
+// Google user
+export interface IgoogleUser {
+    email: string, 
+    name: string, 
+    picture: string
 }

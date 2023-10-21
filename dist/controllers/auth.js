@@ -14,8 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_1 = __importDefault(require("../model/user"));
-const dicErrors_1 = __importDefault(require("../errors/dicErrors"));
 const helpers_1 = require("../helpers");
+const verify_google_token_1 = require("../helpers/verify-google-token");
+const dicErrors_1 = __importDefault(require("../errors/dicErrors"));
 class AuthController {
     constructor() {
         this.login = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -38,6 +39,36 @@ class AuthController {
                 res.status(500).json({
                     msg: dicErrors_1.default.SYSTEM_ERROR
                 });
+            }
+        });
+        this.google = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { googleToken } = req.body;
+            try {
+                const { email, name, picture } = yield (0, verify_google_token_1.verify)(googleToken);
+                let user = yield user_1.default.findOne({ email });
+                if (!user) {
+                    const data = {
+                        email,
+                        name,
+                        img: picture,
+                        google: true,
+                        password: '123456'
+                    };
+                    user = new user_1.default(data);
+                    user.password = user.hashPass(user.password); // Encrypt pass
+                    yield user.save();
+                }
+                if (!user.status)
+                    return res.status(401).json({ msg: dicErrors_1.default.USER_BLOCKED });
+                const token = yield (0, helpers_1.generateJWT)(user.id);
+                res.json({
+                    user,
+                    token
+                });
+            }
+            catch (error) {
+                console.log(error);
+                res.status(401).json({ msg: dicErrors_1.default.INVALID_GOOGLE_TOKEN });
             }
         });
     }

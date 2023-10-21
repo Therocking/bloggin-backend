@@ -1,4 +1,6 @@
 import { Schema, model } from 'mongoose';
+import bcrypt from 'bcryptjs';
+
 import { USER_ROLE } from '../helpers/roles';
 import {Iuser} from '../types/types';
 
@@ -6,15 +8,16 @@ import {Iuser} from '../types/types';
 const UserSchema = new Schema({
     name: {
         type: String,
-        require: true,       
+        required: true,       
     },
     email: {
         type: String,
-        require: true
+        required: true,
+	    unique: true
     },
     password: {
         type: String,
-        require: true
+        required: true
     },
     img: String,
     role: {
@@ -23,7 +26,7 @@ const UserSchema = new Schema({
     },
     google: {
         type: Boolean,
-        default: true
+        default: false
     },
     status: {
         type: Boolean,
@@ -39,6 +42,12 @@ UserSchema.methods.toJSON = function() {
     const { _id, __v, password, ...user} = this.toObject();
     user.uid = _id
     return user
+}
+
+UserSchema.methods.hashPass = (password: string): string => {
+    // Hashing pass
+    const salt = bcrypt.genSaltSync();
+    return bcrypt.hashSync( password, salt );
 }
 
 export default model<Iuser>('User', UserSchema);

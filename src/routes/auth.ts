@@ -12,12 +12,11 @@ const router = Router();
 router.post('/login',[
     check('password', ERRORS.NAME_REQUIRED).not().isEmpty(),
     validFields,
-    check('email', ERRORS.MAIL_REQUIRED).not().isEmpty(),
+    check('email', ERRORS.MAIL_REQUIRED).isEmail(),
     validFields
 ],authController.login);
 
-// router.get('/google', authController);
-
+// router.post('/google', authController.google); //* One error
 
 // The middleware **valid-fields** is reapeted so that there is only one error
 

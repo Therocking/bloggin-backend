@@ -64,14 +64,12 @@ class UsersController {
                 });
             }
         });
-        this.postUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const body = req.body;
-            // Hashing pass
-            const salt = bcryptjs_1.default.genSaltSync();
-            body.password = bcryptjs_1.default.hashSync(body.password, salt);
-            const user = new user_1.default(body);
+        this.createUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const _a = req.body, { google, created_at, role, status, img } = _a, data = __rest(_a, ["google", "created_at", "role", "status", "img"]);
+            const user = new user_1.default(data);
+            user.password = user.hashPass(data.password);
             // User save in DB
-            user.save();
+            yield user.save();
             const token = yield (0, helpers_1.generateJWT)(user.id);
             res.json({
                 user,
@@ -79,12 +77,13 @@ class UsersController {
             });
         });
         this.updateUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const _a = req.body, { status, google, password, role, created_at } = _a, rest = __rest(_a, ["status", "google", "password", "role", "created_at"]);
+            const _b = req.body, { status, google, password, email, role, created_at, id: uid } = _b, data = __rest(_b, ["status", "google", "password", "email", "role", "created_at", "id"]);
             const { id } = req.params;
-            // Hashing pass
-            const salt = bcryptjs_1.default.genSaltSync();
-            rest.password = bcryptjs_1.default.hashSync(password, salt);
-            const user = yield user_1.default.findByIdAndUpdate(id, rest, { new: true });
+            if (password) { // Change pass
+                const salt = bcryptjs_1.default.genSaltSync();
+                data.password = bcryptjs_1.default.hashSync(password, salt);
+            }
+            const user = yield user_1.default.findByIdAndUpdate(id, data, { new: true });
             res.json(user);
         });
         this.deleteUser = (req, res) => __awaiter(this, void 0, void 0, function* () {

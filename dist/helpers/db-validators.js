@@ -23,10 +23,10 @@ const userIdNotExist = (id) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.userIdNotExist = userIdNotExist;
 // Valid email
-const emailExist = (mail) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield user_1.default.findOne({ mail: mail });
-    if (!user)
-        throw new Error(dicErrors_1.default.MAIL_OR_PASS_INCORRECT);
+const emailExist = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_1.default.findOne({ email });
+    if (user)
+        throw new Error(dicErrors_1.default.MAIL_IN_USE);
 });
 exports.emailExist = emailExist;
 //# sourceMappingURL=db-validators.js.map

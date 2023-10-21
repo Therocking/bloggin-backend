@@ -8,6 +8,7 @@ const ERRORS = {
     ID_NOT_IN_USE: 'Nigún usuario o post existe con ese ID.',
     MAIL_OR_PASS_INCORRECT: 'Correo o contraseña incorrecta.',
     USER_UNAUTHORIZED: 'El usuario no tiene permisos para realiza esa acción.',
+    USER_BLOCKED: 'El usuario está bloqueado.',
     TOKEN_NOT_CREATED: 'No se pudo generar el token.',
     INVALID_TOKEN: 'Token no válido.',
     TOKEN_EXPIRED: 'EL token ha expirado.',

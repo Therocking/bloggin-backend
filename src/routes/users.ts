@@ -4,7 +4,7 @@ import { check } from 'express-validator';
 import UsersController from '../controllers/users';
 import { validFields, validJwt, isAdmin } from '../middlewares/';
 import ERRORS from '../errors/dicErrors';
-import { userIdNotExist } from '../helpers/';
+import { emailExist, userIdNotExist } from '../helpers/';
 
 
 const usersController = new UsersController();
@@ -28,11 +28,13 @@ router.get('/:id',[
 router.post('/',[
     check('name', ERRORS.NAME_REQUIRED).not().isEmpty(),
     validFields, // Valid if have any error 
-    check('email', ERRORS.MAIL_REQUIRED).not().isEmpty(),
-    validFields, // Valid if have any error 
     check('password', ERRORS.PASS_REQUIRED).not().isEmpty(),
     validFields, // Valid if have any error
-],usersController.postUser);
+    check('email', ERRORS.MAIL_REQUIRED).isEmail(),
+    validFields, // Valid if have any error 
+    check('email').custom( emailExist ),
+    validFields, // Valid if have any error 
+],usersController.createUser);
 
 router.put('/:id',[
     validJwt,
