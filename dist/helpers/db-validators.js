@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.emailExist = exports.userIdNotExist = void 0;
+exports.emailExist = exports.postIdNotExist = exports.userIdNotExist = void 0;
 const dicErrors_1 = __importDefault(require("../errors/dicErrors"));
 const user_1 = __importDefault(require("../model/user"));
+const post_1 = __importDefault(require("../model/post"));
 // Valid uid
 const userIdNotExist = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_1.default.findById(id);
@@ -22,6 +23,13 @@ const userIdNotExist = (id) => __awaiter(void 0, void 0, void 0, function* () {
         throw new Error(dicErrors_1.default.ID_NOT_IN_USE);
 });
 exports.userIdNotExist = userIdNotExist;
+// Valid post id
+const postIdNotExist = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const post = yield post_1.default.findById(id);
+    if (!post)
+        throw new Error(dicErrors_1.default.ID_NOT_IN_USE);
+});
+exports.postIdNotExist = postIdNotExist;
 // Valid email
 const emailExist = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_1.default.findOne({ email });

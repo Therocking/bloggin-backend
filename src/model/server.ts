@@ -4,6 +4,7 @@ import fileUpload from 'express-fileupload';
 
 import usersRouter from '../routes/users';
 import authRouter from '../routes/auth';
+import postsRouter from '../routes/posts';
 
 import { mongoConnection } from '../db/config';
 
@@ -51,7 +52,7 @@ class Server {
     routes() {
         this.app.use( this.apiRoutes.users, usersRouter ); // usuarios
         this.app.use( this.apiRoutes.auth, authRouter ); // auth
-        //this.app.use( this.apiRoutes.post ); // posts
+        this.app.use( this.apiRoutes.post, postsRouter ); // posts
         //this.app.use( this.apiRoutes.comments ); // comments
         //this.app.use( this.apiRoutes.claps ); // claps
         //this.app.use( this.apiRoutes.uploads ); // uploads

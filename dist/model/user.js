@@ -31,7 +31,10 @@ const UserSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
-    img: String,
+    img: {
+        type: String,
+        default: null
+    },
     role: {
         type: String,
         default: roles_1.USER_ROLE

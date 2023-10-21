@@ -8,6 +8,7 @@ const cors_1 = __importDefault(require("cors"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const users_1 = __importDefault(require("../routes/users"));
 const auth_1 = __importDefault(require("../routes/auth"));
+const posts_1 = __importDefault(require("../routes/posts"));
 const config_1 = require("../db/config");
 class Server {
     constructor() {
@@ -42,7 +43,7 @@ class Server {
     routes() {
         this.app.use(this.apiRoutes.users, users_1.default); // usuarios
         this.app.use(this.apiRoutes.auth, auth_1.default); // auth
-        //this.app.use( this.apiRoutes.post ); // posts
+        this.app.use(this.apiRoutes.post, posts_1.default); // posts
         //this.app.use( this.apiRoutes.comments ); // comments
         //this.app.use( this.apiRoutes.claps ); // claps
         //this.app.use( this.apiRoutes.uploads ); // uploads
