@@ -5,7 +5,8 @@ import ERRORS from '../errors/dicErrors';
 
 class CommentController {
     getCommets = async(req: Request, res: Response) => {
-        const comments = await Comment.find().populate('answers');
+        const comments = await Comment.find()
+            .populate('answers')
         res.json(comments)
     }
 
@@ -14,6 +15,7 @@ class CommentController {
         const { postId } = req.params;
 
         try {
+            const postComments = await Post.findById(postId);
        
             const commentInfo = {
                 ...data,
@@ -23,15 +25,15 @@ class CommentController {
             
             const comment = new Comment(commentInfo);
             
-            const postInfo = {
-                comments: {
-                    comment_id: comment.id
-                }
-            }
+            postComments?.comments.push( comment.id );
+            // const postInfo = {
+            //     comments: postComments?.comments.push(comment.id)
+            // }
     
             const [c, post] = await Promise.all([
                 comment.save(),
-                Post.findByIdAndUpdate(postId, postInfo, {new: true})
+                // Post.findByIdAndUpdate(postId, postInfo, {new: true})
+                postComments?.save()
             ]);
     
             res.status(201).json( c );

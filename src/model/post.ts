@@ -20,16 +20,14 @@ const PostSchema = new Schema({
         required: true
     },
     comments:[{
-        comment_id: {
-            type: Schema.Types.ObjectId,
-            ref: 'Comment',
-            default: null
-        }
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+        default: null
     }],
-    claps: {
-        type: Number,
-        default: 0
-    },
+    claps: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    }],
     status: {
         type: Boolean,
         default: true
@@ -43,5 +41,10 @@ const PostSchema = new Schema({
         default: null
     }
 });
+
+PostSchema.methods.toJSON = function() {
+    const { __v, ...post} = this.toObject();
+    return post
+}
 
 export default model<Iposts>('Post', PostSchema);

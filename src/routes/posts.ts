@@ -22,14 +22,23 @@ router.post('/',[
     validFields, // Valid if have any error 
 ],postController.createPost);
 
-router.put('/:id',[
+router.post('/clap/:id',[
     validJwt,
     validFields, // Valid if have any error 
     check('id', ERRORS.ID_INVALID).isMongoId(),
     validFields, // Valid if have any error 
     check('id').custom( postIdNotExist ),
     validFields, // Valid if have any error
-    check('id').custom( isUserAutor ), // Valid if user is owner of the post
+],postController.claps);
+
+router.put('/:id',[
+    validJwt,
+    validFields, // Valid if have any error 
+    // isUserAutor, // Valid if user is owner of the post
+    validFields, // Valid if have any error
+    check('id', ERRORS.ID_INVALID).isMongoId(),
+    validFields, // Valid if have any error 
+    check('id').custom( postIdNotExist ),
     validFields, // Valid if have any error
 ],postController.updatePost);
 
@@ -40,8 +49,8 @@ router.delete('/:id',[
     validFields, // Valid if have any error 
     check('id').custom( postIdNotExist ),
     validFields, // Valid if have any error
-    check('id').custom( isUserAutor ), // Valid if user is owner of the post
-    validFields, // Valid if have any error
+    // isUserAutor, // Valid if user is owner of the post = canot set headers after sent to the client
+    // validFields, // Valid if have any error
 ],postController.deletePost);
 
 // The middleware **valid-fields** is reapeted so that there is only one error

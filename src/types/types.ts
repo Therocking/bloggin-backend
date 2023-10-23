@@ -32,7 +32,7 @@ export interface Iposts extends Document {
     img: string; 
     user_id: Schema.Types.ObjectId;
     comments: any;
-    claps: number;
+    claps: Schema.Types.ObjectId[];
     status: boolean;
     created_at: Date;
     updated_at: Date;

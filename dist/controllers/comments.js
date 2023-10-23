@@ -29,23 +29,25 @@ const dicErrors_1 = __importDefault(require("../errors/dicErrors"));
 class CommentController {
     constructor() {
         this.getCommets = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const comments = yield comment_1.default.find().populate('answers');
+            const comments = yield comment_1.default.find()
+                .populate('answers');
             res.json(comments);
         });
         this.createComment = (req, res) => __awaiter(this, void 0, void 0, function* () {
             const _a = req.body, { user_id, post_id, created_at, updated_at, comment_parent_id, answers } = _a, data = __rest(_a, ["user_id", "post_id", "created_at", "updated_at", "comment_parent_id", "answers"]);
             const { postId } = req.params;
             try {
+                const postComments = yield post_1.default.findById(postId);
                 const commentInfo = Object.assign(Object.assign({}, data), { post_id: postId, user_id: req.user.id });
                 const comment = new comment_1.default(commentInfo);
-                const postInfo = {
-                    comments: {
-                        comment_id: comment.id
-                    }
-                };
+                postComments === null || postComments === void 0 ? void 0 : postComments.comments.push(comment.id);
+                // const postInfo = {
+                //     comments: postComments?.comments.push(comment.id)
+                // }
                 const [c, post] = yield Promise.all([
                     comment.save(),
-                    post_1.default.findByIdAndUpdate(postId, postInfo, { new: true })
+                    // Post.findByIdAndUpdate(postId, postInfo, {new: true})
+                    postComments === null || postComments === void 0 ? void 0 : postComments.save()
                 ]);
                 res.status(201).json(c);
             }
@@ -75,10 +77,11 @@ class CommentController {
             }
         });
         this.updateComment = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            const _c = req.body, { user_id, post_id, created_at, updated_at, comment_parent_id } = _c, data = __rest(_c, ["user_id", "post_id", "created_at", "updated_at", "comment_parent_id"]);
+            const _c = req.body, { user_id, post_id, created_at, updated_at, comment_parent_id, answers } = _c, data = __rest(_c, ["user_id", "post_id", "created_at", "updated_at", "comment_parent_id", "answers"]);
             const { commentId } = req.params;
             try {
-                const comment = yield comment_1.default.findByIdAndUpdate(commentId, data, { new: true });
+                const commentInfo = Object.assign(Object.assign({}, data), { updated_at: Date.now() });
+                const comment = yield comment_1.default.findByIdAndUpdate(commentId, commentInfo, { new: true });
                 res.json(comment);
             }
             catch (error) {

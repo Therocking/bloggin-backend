@@ -36,12 +36,24 @@ class PostsController {
                     post_1.default.find(query)
                         .skip(Number(offset))
                         .limit(Number(limit))
-                        .populate('user_id', 'name')
-                    // .populate('comment_id')
+                        .populate('user_id', {
+                        name: 1,
+                        img: 1
+                    })
+                        .populate([
+                        {
+                            path: 'comments',
+                            populate: { path: 'answers' }
+                        },
+                        {
+                            path: 'comments',
+                            populate: { path: 'user_id', select: 'name' }
+                        }
+                    ])
                 ]);
                 res.json({
                     total,
-                    posts
+                    posts,
                 });
             }
             catch (error) {
@@ -56,6 +68,25 @@ class PostsController {
                 const post = new post_1.default(postData);
                 yield post.save();
                 res.status(201).json(post);
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: dicErrors_1.default.SYSTEM_ERROR });
+            }
+        });
+        this.claps = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const user = req.user;
+            const { id } = req.params;
+            try {
+                const post = yield post_1.default.findById(id);
+                if (post === null || post === void 0 ? void 0 : post.claps.includes(user.id)) {
+                    post.claps = post.claps.filter(clap => clap !== user.id);
+                }
+                else {
+                    post === null || post === void 0 ? void 0 : post.claps.unshift(user.id);
+                }
+                yield (post === null || post === void 0 ? void 0 : post.save());
+                res.json(post);
             }
             catch (error) {
                 console.log(error);

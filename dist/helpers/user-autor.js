@@ -15,14 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.isUserAutor = void 0;
 const post_1 = __importDefault(require("../model/post"));
 const dicErrors_1 = __importDefault(require("../errors/dicErrors"));
-const isUserAutor = (id) => {
-    return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const user = req.user;
-        const post = yield post_1.default.findById(id);
-        if ((post === null || post === void 0 ? void 0 : post.user_id) !== user.id)
-            return res.status(400).json({ msg: dicErrors_1.default.USER_UNAUTHORIZED });
-        next();
-    });
-};
+const isUserAutor = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const user = req.user;
+    const post = yield post_1.default.findById(id);
+    if ((post === null || post === void 0 ? void 0 : post.user_id) !== user.id)
+        res.status(400).json({ msg: dicErrors_1.default.USER_UNAUTHORIZED });
+    next();
+});
 exports.isUserAutor = isUserAutor;
 //# sourceMappingURL=user-autor.js.map

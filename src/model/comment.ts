@@ -36,4 +36,9 @@ const CommentSchema = new Schema({
     }
 });
 
+CommentSchema.methods.toJSON = function () {
+    const { post_id, __v, ...comment } = this.toObject();
+    return comment
+}
+
 export default model<Icomments>('Comment', CommentSchema);
