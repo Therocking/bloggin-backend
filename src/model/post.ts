@@ -26,13 +26,10 @@ const PostSchema = new Schema({
             default: null
         }
     }],
-    claps:[{
-        clap_id: {
-            type: Schema.Types.ObjectId,
-            ref: 'Clap',
-            default: null
-        }
-    }],
+    claps: {
+        type: Number,
+        default: 0
+    },
     status: {
         type: Boolean,
         default: true

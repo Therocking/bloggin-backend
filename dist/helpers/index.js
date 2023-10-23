@@ -17,4 +17,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./db-validators"), exports);
 __exportStar(require("./generate-jwt"), exports);
 __exportStar(require("./roles"), exports);
+__exportStar(require("./user-autor"), exports);
 //# sourceMappingURL=index.js.map

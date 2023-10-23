@@ -29,10 +29,10 @@ export interface IgoogleUser {
 export interface Iposts extends Document {
     title: string;
     description: string;
-    img: {}; 
+    img: string; 
     user_id: Schema.Types.ObjectId;
     comments: any;
-    claps: any;
+    claps: number;
     status: boolean;
     created_at: Date;
     updated_at: Date;
@@ -45,6 +45,7 @@ export interface Icomments extends Document {
     post_id: Schema.Types.ObjectId;
     created_at: Date;
     updated_at: Date;
+    answers: Schema.Types.ObjectId[];
     comment_parent_id: Schema.Types.ObjectId;
 }
 

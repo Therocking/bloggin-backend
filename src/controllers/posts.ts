@@ -13,6 +13,8 @@ class PostsController {
                 Post.find(query)
                 .skip(Number( offset ))
                 .limit(Number( limit ))
+		        .populate('user_id', 'name')
+		        // .populate('comment_id')
             ]);
 
             res.json({
@@ -37,7 +39,7 @@ class PostsController {
             const post = new Post(postData);
             await post.save();
 
-            res.status(201).json(  )
+            res.status(201).json( post );
             
         } catch (error) {
             console.log(error);
@@ -50,7 +52,12 @@ class PostsController {
         const {id} = req.params;
 
         try {
-            const post = await Post.findByIdAndUpdate(id, data, {new: true});
+            const postInfo = {
+                ...data,
+                updated_at: Date.now()
+            }
+            
+            const post = await Post.findByIdAndUpdate(id, postInfo, {new: true});
 
             res.json(post);
         } catch (error) {
@@ -69,7 +76,8 @@ class PostsController {
         } catch (error) {
             console.log(error);
         }
-    }
+    
+}
 }
 
 export default PostsController;

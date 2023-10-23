@@ -24,6 +24,11 @@ const CommentSchema = new mongoose_1.Schema({
         type: Date,
         default: null
     },
+    answers: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'Comment',
+            default: null
+        }],
     comment_parent_id: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Comment',

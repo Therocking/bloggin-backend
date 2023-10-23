@@ -27,6 +27,8 @@ router.put('/:id', [
     (0, express_validator_1.check)('id', dicErrors_1.default.ID_INVALID).isMongoId(),
     middlewares_1.validFields,
     (0, express_validator_1.check)('id').custom(helpers_1.postIdNotExist),
+    middlewares_1.validFields,
+    (0, express_validator_1.check)('id').custom(helpers_1.isUserAutor),
     middlewares_1.validFields, // Valid if have any error
 ], postController.updatePost);
 router.delete('/:id', [
@@ -35,6 +37,8 @@ router.delete('/:id', [
     (0, express_validator_1.check)('id', dicErrors_1.default.ID_INVALID).isMongoId(),
     middlewares_1.validFields,
     (0, express_validator_1.check)('id').custom(helpers_1.postIdNotExist),
+    middlewares_1.validFields,
+    (0, express_validator_1.check)('id').custom(helpers_1.isUserAutor),
     middlewares_1.validFields, // Valid if have any error
 ], postController.deletePost);
 // The middleware **valid-fields** is reapeted so that there is only one error

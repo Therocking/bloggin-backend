@@ -24,6 +24,11 @@ const CommentSchema = new Schema({
         type: Date,
         default: null
     },
+    answers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+        default: null
+    }],
     comment_parent_id: {
         type: Schema.Types.ObjectId,
         ref: 'Comment',

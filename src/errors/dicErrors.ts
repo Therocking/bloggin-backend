@@ -6,6 +6,7 @@ const ERRORS = {
     MAIL_IN_USE: 'El correo ya está en uso.',
     ID_INVALID: 'El ID, no es un ID de mongo válido.',
     ID_NOT_IN_USE: 'Nigún usuario o post existe con ese ID.',
+    COMMENT_NO_FOUND: 'Comentario no encotrado, el commentario no existe.',
     MAIL_OR_PASS_INCORRECT: 'Correo o contraseña incorrecta.',
     USER_UNAUTHORIZED: 'El usuario no tiene permisos para realiza esa acción.',
     USER_BLOCKED: 'El usuario está bloqueado.',

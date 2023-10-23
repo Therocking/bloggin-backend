@@ -26,13 +26,10 @@ const PostSchema = new mongoose_1.Schema({
                 default: null
             }
         }],
-    claps: [{
-            clap_id: {
-                type: mongoose_1.Schema.Types.ObjectId,
-                ref: 'Clap',
-                default: null
-            }
-        }],
+    claps: {
+        type: Number,
+        default: 0
+    },
     status: {
         type: Boolean,
         default: true

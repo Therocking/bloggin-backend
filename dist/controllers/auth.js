@@ -56,6 +56,7 @@ class AuthController {
                     };
                     user = new user_1.default(data);
                     user.password = user.hashPass(user.password); // Encrypt pass
+                    console.log(user);
                     yield user.save();
                 }
                 if (!user.status)

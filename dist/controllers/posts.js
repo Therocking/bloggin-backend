@@ -36,6 +36,8 @@ class PostsController {
                     post_1.default.find(query)
                         .skip(Number(offset))
                         .limit(Number(limit))
+                        .populate('user_id', 'name')
+                    // .populate('comment_id')
                 ]);
                 res.json({
                     total,
@@ -53,7 +55,7 @@ class PostsController {
                 const postData = Object.assign(Object.assign({}, data), { user_id: req.user.id });
                 const post = new post_1.default(postData);
                 yield post.save();
-                res.status(201).json();
+                res.status(201).json(post);
             }
             catch (error) {
                 console.log(error);
@@ -64,7 +66,8 @@ class PostsController {
             const _b = req.body, { status, created_at, updated_at, creator, img } = _b, data = __rest(_b, ["status", "created_at", "updated_at", "creator", "img"]);
             const { id } = req.params;
             try {
-                const post = yield post_1.default.findByIdAndUpdate(id, data, { new: true });
+                const postInfo = Object.assign(Object.assign({}, data), { updated_at: Date.now() });
+                const post = yield post_1.default.findByIdAndUpdate(id, postInfo, { new: true });
                 res.json(post);
             }
             catch (error) {

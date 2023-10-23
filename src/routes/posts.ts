@@ -3,7 +3,7 @@ import { check } from 'express-validator';
 
 import { validFields, validJwt } from '../middlewares/';
 import ERRORS from '../errors/dicErrors';
-import { postIdNotExist } from '../helpers/';
+import { postIdNotExist, isUserAutor } from '../helpers/';
 import PostsController from '../controllers/posts';
 
 
@@ -29,6 +29,8 @@ router.put('/:id',[
     validFields, // Valid if have any error 
     check('id').custom( postIdNotExist ),
     validFields, // Valid if have any error
+    check('id').custom( isUserAutor ), // Valid if user is owner of the post
+    validFields, // Valid if have any error
 ],postController.updatePost);
 
 router.delete('/:id',[
@@ -37,6 +39,8 @@ router.delete('/:id',[
     check('id', ERRORS.ID_INVALID).isMongoId(),
     validFields, // Valid if have any error 
     check('id').custom( postIdNotExist ),
+    validFields, // Valid if have any error
+    check('id').custom( isUserAutor ), // Valid if user is owner of the post
     validFields, // Valid if have any error
 ],postController.deletePost);
 
