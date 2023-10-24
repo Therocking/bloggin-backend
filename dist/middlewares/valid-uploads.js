@@ -12,29 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isUserAutor = void 0;
-const post_1 = __importDefault(require("../model/post"));
-const comment_1 = __importDefault(require("../model/comment"));
+exports.isValidImg = void 0;
 const dicErrors_1 = __importDefault(require("../errors/dicErrors"));
-const isUserAutor = (collection) => {
-    return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const { id } = req.params;
-        const user = req.user;
-        let model;
-        // const models = {
-        //     post: Post,
-        //     comment: Comment
-        // }
-        if (collection === 'post') {
-            model = yield post_1.default.findById(id);
-        }
-        else if (collection === 'comment') {
-            model = yield comment_1.default.findById(id);
-        }
-        if ((model === null || model === void 0 ? void 0 : model.user_id) !== user.id)
-            return res.status(401).json({ msg: dicErrors_1.default.USER_UNAUTHORIZED });
-        next();
-    });
-};
-exports.isUserAutor = isUserAutor;
-//# sourceMappingURL=user-autor.js.map
+const isValidImg = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const file = (_a = req.files) === null || _a === void 0 ? void 0 : _a.file;
+    const validExts = ['jpg', 'png', 'jpeg'];
+    if (!file)
+        return res.status(400).json({ msg: dicErrors_1.default.FILE_REQUERIDED });
+    const nameFileCutted = file.name.split('.');
+    const fileExt = nameFileCutted[nameFileCutted.length - 1];
+    if (!validExts.includes(fileExt))
+        return res.status(400).json({ msg: dicErrors_1.default.EXT_INVALID });
+    next();
+});
+exports.isValidImg = isValidImg;
+//# sourceMappingURL=valid-uploads.js.map

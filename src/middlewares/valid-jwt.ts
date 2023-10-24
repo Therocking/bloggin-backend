@@ -19,7 +19,7 @@ export const validJwt = async( req: Request, res: Response, next: NextFunction )
         const { uid } = jwt.verify( token, process.env.SECRETJWT || 'secret') as Iuid
         const user = await User.findById(uid);
 
-        if(!user || !user.status) return res.status(400).json({ msg: ERRORS.ID_NOT_IN_USE });
+        if(!user || !user.status) return res.status(404).json({ msg: ERRORS.ID_NOT_IN_USE });
 
         req.user = user;
 

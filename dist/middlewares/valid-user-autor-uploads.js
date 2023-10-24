@@ -12,30 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validJwt = void 0;
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+exports.isUserAutorToUpload = void 0;
 const user_1 = __importDefault(require("../model/user"));
+const post_1 = __importDefault(require("../model/post"));
 const dicErrors_1 = __importDefault(require("../errors/dicErrors"));
-const validJwt = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const token = req.header('x-token');
-    if (!token) {
-        return res.status(401).json({
-            msg: dicErrors_1.default.WITHOUT_TOKEN
-        });
+const isUserAutorToUpload = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.user;
+    const { collection, id } = req.params;
+    let model;
+    if (collection === 'users') {
+        model = yield user_1.default.findById(id);
     }
-    try {
-        const { uid } = jsonwebtoken_1.default.verify(token, process.env.SECRETJWT || 'secret');
-        const user = yield user_1.default.findById(uid);
-        if (!user || !user.status)
-            return res.status(404).json({ msg: dicErrors_1.default.ID_NOT_IN_USE });
-        req.user = user;
-        next();
+    else if (collection === 'users') {
+        model = yield post_1.default.findById(id);
     }
-    catch (error) {
-        if (error.name === 'TokenExpiredError')
-            return res.status(401).json({ msg: dicErrors_1.default.TOKEN_EXPIRED });
-        res.status(401).json({ msg: dicErrors_1.default.INVALID_TOKEN });
-    }
+    if (model.uid !== user.id || model.user_id !== user.id)
+        return res.status(401).json({ msg: dicErrors_1.default.USER_UNAUTHORIZED });
+    next();
 });
-exports.validJwt = validJwt;
-//# sourceMappingURL=valid-jwt.js.map
+exports.isUserAutorToUpload = isUserAutorToUpload;
+//# sourceMappingURL=valid-user-autor-uploads.js.map

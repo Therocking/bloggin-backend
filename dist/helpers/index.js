@@ -18,4 +18,5 @@ __exportStar(require("./db-validators"), exports);
 __exportStar(require("./generate-jwt"), exports);
 __exportStar(require("./roles"), exports);
 __exportStar(require("./user-autor"), exports);
+__exportStar(require("./cloudinary-uploads"), exports);
 //# sourceMappingURL=index.js.map

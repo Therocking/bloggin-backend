@@ -10,6 +10,7 @@ const users_1 = __importDefault(require("../routes/users"));
 const auth_1 = __importDefault(require("../routes/auth"));
 const posts_1 = __importDefault(require("../routes/posts"));
 const comments_1 = __importDefault(require("../routes/comments"));
+const uploads_1 = __importDefault(require("../routes/uploads"));
 const config_1 = require("../db/config");
 class Server {
     constructor() {
@@ -18,7 +19,6 @@ class Server {
             auth: '/api/auth',
             post: '/api/posts',
             comments: '/api/comments',
-            claps: '/api/claps',
             uploads: '/api/uploads',
         };
         this.app = (0, express_1.default)();
@@ -46,8 +46,7 @@ class Server {
         this.app.use(this.apiRoutes.auth, auth_1.default); // auth
         this.app.use(this.apiRoutes.post, posts_1.default); // posts
         this.app.use(this.apiRoutes.comments, comments_1.default); // comments
-        //this.app.use( this.apiRoutes.claps ); // claps
-        //this.app.use( this.apiRoutes.uploads ); // uploads
+        this.app.use(this.apiRoutes.uploads, uploads_1.default); // uploads
     }
     listen() {
         this.app.listen(this.port, () => {

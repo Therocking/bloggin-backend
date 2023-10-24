@@ -40,6 +40,8 @@ router.put('/:id',[
     validFields, // Valid if have any error 
     check('id').custom( postIdNotExist ),
     validFields, // Valid if have any error
+    isUserAutor('post'), // Valid if user is owner of the post = canot set headers after sent to the client
+    validFields, // Valid if have any error
 ],postController.updatePost);
 
 router.delete('/:id',[
@@ -49,8 +51,8 @@ router.delete('/:id',[
     validFields, // Valid if have any error 
     check('id').custom( postIdNotExist ),
     validFields, // Valid if have any error
-    // isUserAutor, // Valid if user is owner of the post = canot set headers after sent to the client
-    // validFields, // Valid if have any error
+    isUserAutor('post'), // Valid if user is owner of the post = canot set headers after sent to the client
+    validFields, // Valid if have any error
 ],postController.deletePost);
 
 // The middleware **valid-fields** is reapeted so that there is only one error

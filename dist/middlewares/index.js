@@ -17,4 +17,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./valid-fields"), exports);
 __exportStar(require("./valid-jwt"), exports);
 __exportStar(require("./valid-role"), exports);
+__exportStar(require("./valid-uploads"), exports);
+__exportStar(require("./valid-user-autor-uploads"), exports);
 //# sourceMappingURL=index.js.map

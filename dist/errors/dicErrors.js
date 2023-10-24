@@ -20,6 +20,7 @@ const ERRORS = {
     INVALID_GOOGLE_TOKEN: 'Token de google no válido.',
     TITLE_EMPTY: 'El titulo no puedo ir vacío.',
     EXT_INVALID: 'Extención de archivo no aceptada.',
+    FILE_REQUERIDED: 'Archivo no encontrado. Debe de subir un archivo.',
     SYSTEM_ERROR: 'Algo salió mal hable con el administrador.'
 };
 exports.default = ERRORS;
