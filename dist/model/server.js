@@ -11,6 +11,7 @@ const auth_1 = __importDefault(require("../routes/auth"));
 const posts_1 = __importDefault(require("../routes/posts"));
 const comments_1 = __importDefault(require("../routes/comments"));
 const uploads_1 = __importDefault(require("../routes/uploads"));
+const search_1 = __importDefault(require("../routes/search"));
 const config_1 = require("../db/config");
 class Server {
     constructor() {
@@ -20,6 +21,7 @@ class Server {
             post: '/api/posts',
             comments: '/api/comments',
             uploads: '/api/uploads',
+            search: '/api/search',
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '3000';
@@ -47,6 +49,7 @@ class Server {
         this.app.use(this.apiRoutes.post, posts_1.default); // posts
         this.app.use(this.apiRoutes.comments, comments_1.default); // comments
         this.app.use(this.apiRoutes.uploads, uploads_1.default); // uploads
+        this.app.use(this.apiRoutes.search, search_1.default); // search
     }
     listen() {
         this.app.listen(this.port, () => {

@@ -93,6 +93,20 @@ class CommentController {
             res.status(500).json({ msg: ERRORS.SYSTEM_ERROR });
         }
     }
+
+    deleteComment = async(req: Request, res: Response) => {
+        const {commentId} = req.params;
+
+        try {
+            const comment = await Comment.findByIdAndUpdate( commentId, {status: false}, {new: true} );
+
+            res.json( comment );
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: ERRORS.SYSTEM_ERROR });
+        }
+    }
 }
 
 export default CommentController;

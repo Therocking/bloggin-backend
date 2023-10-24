@@ -3,14 +3,14 @@ import { check } from 'express-validator';
 
 import { validFields, validJwt } from '../middlewares/';
 import ERRORS from '../errors/dicErrors';
-import { commentIdNotExist, postIdNotExist } from '../helpers/';
+import { commentIdNotExist, postIdNotExist, isUserAutor } from '../helpers/';
 import CommentController from '../controllers/comments';
 
 
 const commentController = new CommentController();
 const router = Router();
 
-router.get('/',commentController.getCommets);
+router.get('/',commentController.getCommets); // only for dev env
 
 router.post('/:postId',[
     validJwt,
@@ -35,11 +35,24 @@ router.post('/answer/:commentId/:postId',[
 router.put('/:commentId',[
     validJwt,
     validFields, // Valid if have any error 
+    isUserAutor('comment'), // Valid if user is owner of the post = canot set headers after sent to the client
+    validFields, // Valid if have any error 
     check('commentId', ERRORS.ID_INVALID).isMongoId(),
     validFields, // Valid if have any error 
     check('commentId').custom( commentIdNotExist ), // Hacer para comment
     validFields, // Valid if have any error
 ],commentController.updateComment);
+
+router.delete('/:commentId',[
+    validJwt,
+    validFields, // Valid if have any error 
+    isUserAutor('comment'), // Valid if user is owner of the post = canot set headers after sent to the client
+    validFields, // Valid if have any error 
+    check('commentId', ERRORS.ID_INVALID).isMongoId(),
+    validFields, // Valid if have any error 
+    check('commentId').custom( commentIdNotExist ), // Hacer para comment
+    validFields, // Valid if have any error
+],commentController.deleteComment);
 
 
 // The middleware **valid-fields** is reapeted so that there is only one error

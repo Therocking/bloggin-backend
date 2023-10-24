@@ -1,8 +1,7 @@
 import {Request, Response} from 'express';
-import { Document } from 'mongoose';
 import Post from '../model/post';
 import ERRORS from '../errors/dicErrors';
-import { Iposts } from '../types/types';
+import { populateOption } from '../helpers';
 
 class PostsController {
     getPosts = async(req: Request, res: Response) => {
@@ -19,16 +18,7 @@ class PostsController {
                     name: 1,
                     img: 1
                 })
-		        .populate([
-                    {
-                        path: 'comments',
-                        populate: { path: 'answers' }
-                    },
-                    {
-                        path: 'comments',
-                        populate: { path: 'user_id', select: 'name' }
-                    }
-                ])
+		        .populate(populateOption)
             ]);
 
 

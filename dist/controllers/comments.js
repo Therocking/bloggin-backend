@@ -89,6 +89,17 @@ class CommentController {
                 res.status(500).json({ msg: dicErrors_1.default.SYSTEM_ERROR });
             }
         });
+        this.deleteComment = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { commentId } = req.params;
+            try {
+                const comment = yield comment_1.default.findByIdAndUpdate(commentId, { status: false }, { new: true });
+                res.json(comment);
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: dicErrors_1.default.SYSTEM_ERROR });
+            }
+        });
     }
 }
 exports.default = CommentController;

@@ -7,6 +7,7 @@ import authRouter from '../routes/auth';
 import postsRouter from '../routes/posts';
 import commentsRouter from '../routes/comments';
 import uploadsRouter from '../routes/uploads';
+import searchRouter from '../routes/search';
 
 import { mongoConnection } from '../db/config';
 
@@ -19,6 +20,7 @@ class Server {
         post: '/api/posts',
         comments: '/api/comments',
         uploads: '/api/uploads',
+        search: '/api/search',
     }
 
     constructor() {
@@ -56,6 +58,7 @@ class Server {
         this.app.use( this.apiRoutes.post, postsRouter ); // posts
         this.app.use( this.apiRoutes.comments, commentsRouter ); // comments
         this.app.use( this.apiRoutes.uploads, uploadsRouter ); // uploads
+        this.app.use( this.apiRoutes.search, searchRouter ); // search
     }
 
     listen() {

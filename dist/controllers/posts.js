@@ -25,6 +25,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const post_1 = __importDefault(require("../model/post"));
 const dicErrors_1 = __importDefault(require("../errors/dicErrors"));
+const helpers_1 = require("../helpers");
 class PostsController {
     constructor() {
         this.getPosts = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -40,16 +41,7 @@ class PostsController {
                         name: 1,
                         img: 1
                     })
-                        .populate([
-                        {
-                            path: 'comments',
-                            populate: { path: 'answers' }
-                        },
-                        {
-                            path: 'comments',
-                            populate: { path: 'user_id', select: 'name' }
-                        }
-                    ])
+                        .populate(helpers_1.populateOption)
                 ]);
                 res.json({
                     total,
