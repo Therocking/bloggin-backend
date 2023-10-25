@@ -115,7 +115,7 @@ Los comentarios y las respuestas mantienen la referencia al post donde escribier
 
 Los claps sólo se encuentran en los posts y una vez puesto no se elimina. Sólo se utilizan para contar la cuantos ObjectId hay.
 
-[Más sobre la api]("https://github.com/Therocking/bloggin-backend/blob/main/DOCUMENTATION.md")
+[Más sobre la api](https://github.com/Therocking/bloggin-backend/blob/main/DOCUMENTATION.md)
 
 ## Mejoras
 - Fución para buscar por más claps.
