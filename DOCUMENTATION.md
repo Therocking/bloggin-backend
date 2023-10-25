@@ -12,41 +12,174 @@ Aplicación de blogging con:
 - Busqueda de usuarios y posts 
 - Comentarios
 - Subida de imagenes
-- Likes
-- Recomendación por más like
+- Claps
 
 ## Tecnológias
-
 - NodeJS
-- Express
-- Express Validator
-- MongoDB
-- Mongoose
-- JWT
-- Google sign-in
-- Moment
+- cors
+- cloudinary
+- bcryptjs
+- express
+- express-validator
+- express-fileupload
+- google-auth-library
+- jsonwebtoken
+- mongoDB
+- mongoose
 
 ## Especifícaciones
 
 ### Usuario
-Los usuarios requerien el nombre, correo, contraseña, rol, img, estado(si esta en falso significa que está borrado o suspendido), si se autenticó con google, (más) los roles de los usuarios serán: usuarios ADMIN y USER.
+Etructura de los usuarios:
+```javascript
+const UserSchema = new Schema({
+    name: {
+        type: String,
+        required: true,       
+    },
+    email: {
+        type: String,
+        required: true,
+	    unique: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    img: {
+        type: String,
+        default: null
+    },
+    role: {
+        type: String,
+        default: USER_ROLE
+    },
+    google: {
+        type: Boolean,
+        default: false
+    },
+    status: {
+        type: Boolean,
+        default: true
+    },
+    created_at: {
+        type: Date,
+        default: Date.now()
+    }
+});
+```
+-------------
 
 ### Post
-Los comentarios requieren un titulo, estado(si esta en falso significa que está borrado), descripción, fecha de creación, usuario que lo creó, comentrios, likes(la cantidad de likes puede reducir), img, (más).
+Estructura de los posts:
+```javascript
+const PostSchema = new Schema({
+    title: {
+        type: String,
+        require: true
+    },
+    description: {
+        type: String,
+        default: null
+    },
+    img: {
+        type: String,
+        default: null
+    },
+    user_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    comments:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+        default: null
+    }],
+    claps: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    }],
+    status: {
+        type: Boolean,
+        default: true
+    },
+    created_at: {
+        type: Date,
+        default: Date.now()
+    },
+    updated_at: {
+        type: Date,
+        default: null
+    }
+});
+```
+-------------
 
 ### Comentario 
-Los comentarios requieren descripción, fecha de creación, usuario que lo creó, likes(la cantidad de likes puede reducir), respuestas, (más).
+Estructura de los comentarios:
+```javascript
+const CommentSchema = new Schema({
+    msg: {
+        type: String,
+        required: true
+    },
+    user_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    post_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Post',
+        required: true
+    },
+    created_at: {
+        type: Date,
+        default: Date.now()
+    },
+    updated_at: {
+        type: Date,
+        default: null
+    },
+    answers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+        default: null
+    }],
+    comment_parent_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+        default: null
+    }
+});
+```
+-------------
 
 ## Rutas
 
-### Auth - público
+### Autenticación
 - /api/auth/login - POST
 - /api/auth/google - POST
 
-### Usuarios - público
+### Usuarios
 - /api/user - GET - POST 
 - /api/user/:id - DELETE - PUT - GET 
 
-### Posts - público
+### Posts
 - /api/posts - GET - POST 
 - /api/posts/:id - DELETE - PUT - GET
+- /api/posts/clap/:id - POST 
+
+### Comentarios
+- /api/comments/' - GET
+- /api/comments/:postId' - POST
+- /api/comments/answer/:commentId/:postId' - POST
+- /api/comments/:commentId' - PUT - DELETE
+
+### Subida de archivos
+- /api/uploads/users/:userId - POST
+- /api/uploads/posts/:postId - POST
+
+### Busqueda
+- /api/search/:term - GET

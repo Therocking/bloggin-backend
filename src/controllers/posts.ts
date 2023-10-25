@@ -58,12 +58,8 @@ class PostsController {
 
         try {
             const post = await Post.findById(id);
-            
-            if ( post?.claps.includes(user.id) ) {
-                post.claps = post.claps.filter( clap => clap !== user.id )
-            }else{
-                post?.claps.unshift(user.id)
-            }
+
+            post?.claps.unshift(user.id)
 
             await post?.save();
             

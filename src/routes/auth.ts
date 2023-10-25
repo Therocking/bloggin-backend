@@ -16,7 +16,7 @@ router.post('/login',[
     validFields
 ],authController.login);
 
-// router.post('/google', authController.google); //* One error
+router.post('/google', authController.google); //* One error
 
 // The middleware **valid-fields** is reapeted so that there is only one error
 

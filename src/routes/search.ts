@@ -7,7 +7,7 @@ import SearchController from '../controllers/search';
 const searchController = new SearchController();
 const router = Router();
 
-router.get('/:collection/:termino',[
+router.get('/:collection/:term',[
     validJwt,
     validFields, // Valid if have any error
 ],searchController.search);

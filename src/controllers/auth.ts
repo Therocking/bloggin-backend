@@ -54,7 +54,6 @@ class AuthController {
                 user = new User(data);
     
                 user.password = user.hashPass(user.password) // Encrypt pass
-                console.log(user);
     
                 await user.save();
             }

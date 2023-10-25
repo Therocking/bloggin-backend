@@ -11,7 +11,7 @@ class SearchController {
     }
 
     search = async (req: Request, res: Response) => {
-        const { collection, termino } = req.params;
+        const { collection, term } = req.params;
         const { offset=0, limit=5 } = req.query;
 
         const offsetNum = Number( offset );
@@ -19,7 +19,7 @@ class SearchController {
 
         switch (collection) {
             case 'posts':
-                this.searchPosts( termino, res, offsetNum, limitNum );    
+                this.searchPosts( term, res, offsetNum, limitNum );    
             break;
 
             default: return res.status(400).json({ msg: `Colección no permitida, coleciones permitidas: ${this.collectionsAllowed}` });

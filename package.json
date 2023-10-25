@@ -2,9 +2,10 @@
   "name": "blogging",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
     "dev": "nodemon --env-file .env dist/app",
+    "build": "tsc -w",
     "start": "node --env-file .env dist/app"
   },
   "keywords": [],
