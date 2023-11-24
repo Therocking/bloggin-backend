@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Roles {
+   USER
+   ADMIN
+}
+
+model Users {
+   id Int @id @default(autoincrement())
+   name String @db.VarChar(100)
+   email String @unique @db.VarChar(100)
+   emailValidated Boolean @default(false)
+   password String @db.VarChar(100)
+   created_at DateTime @default(now())
+   status Boolean @default(true)
+   img String? @db.VarChar()
+   role Roles @default(USER)
+   posts Posts[]
+   comments Comments[]
+}
+
+model Posts {
+   id Int @id @default(autoincrement())
+   title String @db.VarChar(100)
+   content String 
+   img String? @db.VarChar()
+   status Boolean @default(true)
+   createdAt DateTime @default(now())
+   updatedAt DateTime?
+   user_id Int 
+   author Users @relation(fields: [user_id], references: [id])
+   comments Comments[]
+} 
+
+model Comments {
+   id Int @id @default(autoincrement())
+   content String 
+   status Boolean @default(true)
+   createdAt DateTime @default(now())
+   updatedAt DateTime?
+   user_id Int 
+   post_id Int 
+   comment_parent_id Int?
+   author Users @relation(fields: [user_id], references: [id])
+   fromPost Posts @relation(fields: [post_id], references: [id])
+   answer Comments? @relation("CommentsAnswers", fields: [comment_parent_id], references: [id])
+   answers Comments[] @relation("CommentsAnswers") //Indica que puede tener otros comentarios
+}
