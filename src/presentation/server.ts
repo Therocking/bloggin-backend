@@ -1,17 +1,20 @@
-import express from 'express';
+import express, { Router } from 'express';
 
 interface Options {
-   port: number,
+   port: number
+   routes: Router
 }
 
 export class Server {
    public readonly app = express()
    private serverListener?: any
    private readonly port: number 
+   private readonly routes: Router
 
    constructor(options: Options) {
-      const { port } = options;
-      this.port = port
+      const { port, routes } = options;
+      this.port = port,
+      this.routes = routes
    }
 
    async start() {
@@ -19,6 +22,7 @@ export class Server {
       /* Middlewares */
       this.app.use( express.json() )
       this.app.use( express.urlencoded({ extended: true }) )
+      this.app.use( this.routes )
 
       /* Listen */
       this.serverListener = this.app.listen( this.port, () => {
@@ -26,7 +30,7 @@ export class Server {
       })
    }
 
-   public close() {
+   public closeServer() {
       this.serverListener?.close()
    }
    

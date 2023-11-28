@@ -3,8 +3,8 @@ import { listErrors } from "../../errors";
 
 export class LoginUserDto {
    private constructor(
-      private readonly email: string,
-      private readonly password: string
+      public readonly email: string,
+      public readonly password: string
    ){}
 
    static create( obj: {[key:string]: any} ): [string?, LoginUserDto?]{

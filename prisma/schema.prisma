@@ -32,7 +32,7 @@ model Users {
 model Posts {
    id Int @id @default(autoincrement())
    title String @db.VarChar(100)
-   content String 
+   content String? 
    img String? @db.VarChar()
    status Boolean @default(true)
    createdAt DateTime @default(now())

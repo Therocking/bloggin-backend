@@ -9,10 +9,10 @@ interface CreateCommentDtoOption {
 }
 
 export class CreateCommentDto {
-  private readonly content: string
-  private readonly user: number
-  private readonly post: number
-  private readonly commentParent?: number
+  public readonly content: string
+  public readonly user: number
+  public readonly post: number
+  public readonly commentParent?: number
 
   private constructor(opt: CreateCommentDtoOption) {
       const {content, user, post, commentParent} = opt;

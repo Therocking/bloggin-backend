@@ -12,14 +12,14 @@ interface CommentEntityOptions {
 }
 
 export class CommentEntity {
-   private readonly id: number 
-   private readonly content: string
-   private readonly img?: string
-   private readonly status: boolean
-   private readonly createdAt: Date
-   private readonly updatedAt?: Date
-   private readonly user: number
-   private readonly post: number
+   public readonly id: number 
+   public readonly content: string
+   public readonly img?: string
+   public readonly status: boolean
+   public readonly createdAt: Date
+   public readonly updatedAt?: Date
+   public readonly user: number
+   public readonly post: number
 
    private constructor(opt: CommentEntityOptions) {
       const { id, content, img, status, createdAt, updatedAt, user, post } = opt;

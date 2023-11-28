@@ -9,10 +9,10 @@ interface CreatePostDtoOptions {
 }
 
 export class CreatePostDto {
-   private readonly title: string
-   private readonly content?: string
-   private readonly img?: string
-   private readonly user: number
+   public readonly title: string
+   public readonly content?: string
+   public readonly img?: string
+   public readonly user: number
 
   private constructor(opt: CreatePostDtoOptions){
       const { title, content, img, user } = opt;

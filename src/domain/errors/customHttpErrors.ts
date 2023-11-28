@@ -3,8 +3,8 @@
 
 export class CustomHttpErrors extends Error {
    private constructor(
-      private readonly statusCode: number,
-      private readonly msg: string
+      public readonly statusCode: number,
+      public readonly msg: string
    ){
       super(msg)
    }

@@ -12,14 +12,14 @@ interface PostEntityOptions {
 }
 
 export class PostEntity {
-   private readonly id: number 
-   private readonly title: string
-   private readonly content?: string
-   private readonly img?: string
-   private readonly status: boolean
-   private readonly createdAt: Date
-   private readonly updatedAt?: Date
-   private readonly user: number
+   public readonly id: number 
+   public readonly title: string
+   public readonly content?: string
+   public readonly img?: string
+   public readonly status: boolean
+   public readonly createdAt: Date
+   public readonly updatedAt?: Date
+   public readonly user: number
 
    private constructor(opt: PostEntityOptions) {
       const { id, title, content, img, status, createdAt, updatedAt, user } = opt;

@@ -9,10 +9,10 @@ interface UpdateUserDtoOptions {
 }
 
 export class UpadateUserDto {
-   private readonly id: number
-   private readonly name?: string
-   private readonly password?: string
-   private readonly img?: string
+   public readonly id: number
+   public readonly name?: string
+   public password?: string
+   public readonly img?: string
 
    private constructor( opt: UpdateUserDtoOptions ){
       const { id, name, password, img} = opt;

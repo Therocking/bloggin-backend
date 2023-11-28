@@ -8,10 +8,10 @@ interface RegisterUserDtoOption {
 }
 
 export class RegisterUserDto {
-   private readonly name: string
-   private readonly email: string
-   private readonly password: string
-   private readonly img?: string
+   public readonly name: string
+   public readonly email: string
+   public password: string
+   public readonly img?: string
    
    private constructor( opt: RegisterUserDtoOption ){
       const { name, email, password, img } = opt;

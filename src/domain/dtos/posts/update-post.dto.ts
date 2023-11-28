@@ -2,28 +2,33 @@ import { listErrors } from "../../errors/"
 
 
 interface UpdatePostDtoOptions {
+   id: number
    title: string
    content?: string
    img?: string
 }
 
 export class UpdatePostDto {
-   private readonly title: string
-   private readonly content?: string
-   private readonly img?: string
+   public readonly id: number 
+   public readonly title: string
+   public  readonly content?: string
+   public readonly img?: string
 
   private constructor(opt: UpdatePostDtoOptions){
-      const { title, content, img} = opt;
+      const {id, title, content, img} = opt;
 
+      this.id = id,
       this.title = title,
       this.content = content,
       this.img = img
   }
 
   public static create( obj: {[key: string]: any} ): [string?, UpdatePostDto?] {
-      const { title, content, img} = obj;
+      const { id, title, content, img} = obj;
 
+      if( !id ) return [listErrors.MISSING_ID];
       if( !title ) return [listErrors.MISSING_TITLE];
-      return [undefined, new UpdatePostDto({title, content, img})];
+
+      return [undefined, new UpdatePostDto({id, title, content, img})];
   }
 }
