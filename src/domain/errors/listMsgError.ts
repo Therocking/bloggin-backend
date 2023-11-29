@@ -21,4 +21,5 @@ export const listErrors = {
    COMMENT_NOT_FOUND: 'Comment not found',
    EMAIL_INVALID: 'Email invalid',
    INVALID_TOKEN: 'Inavalid Bearer token',
+   EMAIL_NOT_SEND: 'Email was not send',
 }

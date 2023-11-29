@@ -27,4 +27,12 @@ export class AuthController {
 	 .then( resp => res.json(resp) )
 	 .catch( error => this.handleErrorUserCase.handleError(error, res) )
    }
+
+   validEmail = async(req: Request, res: Response) => {
+      const {token} = req.params;
+
+      this.authService.validEmail(token)
+	 .then(resp => res.json(resp))
+	 .catch(error => this.handleErrorUserCase.handleError(error, res))
+   }
 }

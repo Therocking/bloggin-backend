@@ -10,7 +10,6 @@ export class CustomHandleError {
                                                                                                        
    public handleError = (error: unknown, res: Response) => {                                                     
    
-      console.log(error)
       if(error instanceof CustomHttpErrors) return res.status(error.statusCode).json({ error: error.msg })
 
       console.log(`${error}`)                                                                                    

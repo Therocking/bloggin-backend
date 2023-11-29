@@ -1,13 +1,14 @@
 import { BcryptAdapter } from "../../config/bcrypt.adapter";
 import { JwtAdapter } from "../../config/jwt.adapter";
-import { CustomHttpErrors, LoginUserDto, RegisterUserDto, listErrors, UserRepository } from "../../domain";
+import { CustomHttpErrors, LoginUserDto, RegisterUserDto, listErrors, UserRepository, SendEmailUseCase } from "../../domain";
 
 
 
 export class AuthService {
    constructor(
       private readonly userRepository: UserRepository,
-      private readonly jwtAdapter: JwtAdapter
+      private readonly jwtAdapter: JwtAdapter,
+      private readonly sendEmailUseCase: SendEmailUseCase
    ){}
 
    public async registerUser(userDto: RegisterUserDto) {
@@ -16,6 +17,9 @@ export class AuthService {
 
 	 // Generate JWT
 	 const token = await this.jwtAdapter.generate({id: newUser.id});
+
+	 // Send mail to validate email
+	 await this.sendEmailUseCase.validationEmail(userDto.email);
 
 	 return {
 	    user: newUser,
@@ -47,5 +51,18 @@ export class AuthService {
 	 throw CustomHttpErrors.interanlError(listErrors.SERVER_ERROR)
       }
    }
+
+  public async validEmail(token: string) {
+     try{
+	const payload = await this.jwtAdapter.verify<{email: string}>(token);
+	if(!payload) throw CustomHttpErrors.unAuthorize(listErrors.INVALID_TOKEN);
+
+        await this.userRepository.getByEmailToValid(payload.email);
+
+     }catch(error) {
+	 if( error instanceof CustomHttpErrors && error.statusCode !== 500) throw error 
+	throw CustomHttpErrors.interanlError(listErrors.SERVER_ERROR);
+     }
+  } 
 
 }
